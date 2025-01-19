@@ -1,5 +1,7 @@
 const express = require("express");
-const path = require("path")
+const path = require("path");
+const { body, validationResult } = require("express-validator");
+
 
 
 const app = express();
@@ -27,6 +29,10 @@ app.get("/", (req, res) => {
 
 app.get("/new", (req, res) => {
     res.render("form");
+})
+
+app.get("/check", (req, res) => {
+  res.send("Hello world");
 })
 
 app.post("/new", (req, res) => {
