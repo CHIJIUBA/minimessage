@@ -1,6 +1,6 @@
 const express = require("express");
 const path = require("path");
-const { body, validationResult } = require("express-validator");
+const { check, validationResult} = require('express-validator');
 
 
 
@@ -35,7 +35,16 @@ app.get("/check", (req, res) => {
   res.send("Hello world");
 })
 
-app.post("/new", (req, res) => {
+app.post("/new", [
+  check('email').isEmail().withMessage("This field must be a valid email"),
+  check('user').isLength({ min: 5 })
+],(req, res) => {
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
     date = new Date();
     req.body["added"] = date;
     console.log(req.body);
